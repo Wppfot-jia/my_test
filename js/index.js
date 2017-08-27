@@ -4,14 +4,19 @@ var ali_bottom = document.querySelectorAll(".li_bottom"),
     canvas = document.querySelector("#canvas"),
     clientWidth = document.documentElement.clientWidth;
 
-var arr=["昨天","星期六","星期日","星期一","星期二","星期三"]
+var arr=["昨天","星期六","星期日","星期一","星期二","星期三"];
+var arr_wea = ["多云","晴","暴雨","冰雹","沙尘暴","台风","雾霾"];
+
+
+for(var i = 0;i<ali_bottom.length;i++){
+    ali_bottom[i].innerHTML = arr_wea[i];
+}
+
 
 for(var i = 0;i<ali_bottom.length;i++){
 	ali_bottom[i].i = i;
     li_top[i].innerHTML = arr[i];
-	
     var weather = ali_bottom[i].innerHTML;
-
     switch(weather){
     	case "暴雨":
             ali_center[i].innerHTML = "&#xe603;";

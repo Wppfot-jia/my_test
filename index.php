@@ -1,22 +1,17 @@
 <?php
 
 header("content-type:text/html;charset=utf-8");
-
-$conn = @mysql_connect('localhost','root','');
-
-mysql_select_db('forecast');
-
-mysql_query("set names utf8");
-
-$sql = "select * from data";
-
-$res = mysql_query($sql);
-
-while($row = mysql_fetch_assoc($res)){
-    $rows[] = $row;
+$rows = [];
+try {
+    $dbh = new PDO('mysql:host=localhost;dbname=forecast', 'root', '');
+    foreach($dbh->query('select * from data') as $row) {
+        array_push($rows,$row);
+    }
+    $dbh = null;
+} catch (PDOException $e) {
+    print "Error!: " . $e->getMessage() . "<br/>";
+    die();
 }
-
- // var_dump($rows);
 ?>
 
 
@@ -28,9 +23,6 @@ while($row = mysql_fetch_assoc($res)){
         <title></title>
         <link href="css/index.css" rel="stylesheet" type="text/css"></link>
         <script type="text/javascript">
-            /*将页面分为10rem*/
-            // document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/10 + "px";
-
             var designWidth = 375, rem2px = 100;
             if(window.innerWidth < 640 ){
                 document.getElementsByTagName("html")[0].style.fontSize = document.documentElement.clientWidth/10 + "px";
@@ -66,7 +58,7 @@ while($row = mysql_fetch_assoc($res)){
                 <ul>
                     <?php foreach($rows as $k=>$v):?>
                         <?php
-                            if($v['weather'] == "晴"){
+                            if($v['max_temp'] == "10.2"){
                                 continue;
                             }
                         ?>
@@ -74,7 +66,7 @@ while($row = mysql_fetch_assoc($res)){
                     <li>
                         <div class="li_top"></div>
                         <div class="li_center iconfont">&#xe607;</div>
-                        <div class="li_bottom"><?php echo $v['weather']?></div>
+                        <div class="li_bottom"></div>
                     </li>
 
                     <?php endforeach;?>
@@ -85,7 +77,7 @@ while($row = mysql_fetch_assoc($res)){
                     <ul class="max_temp">
                         <?php foreach($rows as $k=>$v):?>
                         <?php
-                            if($v['weather'] == "晴"){
+                            if($v['max_temp'] == "10.2"){
                                 continue;
                             }
                         ?>
@@ -97,7 +89,7 @@ while($row = mysql_fetch_assoc($res)){
                     <ul class="min_temp">
                         <?php foreach($rows as $k=>$v):?>
                         <?php
-                            if($v['weather'] == "晴"){
+                            if($v['max_temp'] == "10.2"){
                                 continue;
                             }
                         ?>
